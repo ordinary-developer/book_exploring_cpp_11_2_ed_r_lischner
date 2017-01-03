@@ -17,7 +17,7 @@ bool operator!=(card a, card b) {
 }
 
 std::ostream& operator<<(std::ostream& out, card c) {
-    out << c.get_rank() << " " << c.get_suit();
+    out << int(c.get_rank()) << " " << int(c.get_suit());
     return out;
 }
 
@@ -42,7 +42,7 @@ bool acelow_compare(card a, card b) {
 
 
 card_generator::card_generator() 
-    : rankIndex_{ 2 }, suitIndex_{ card::ace } { }
+    : rankIndex_{ 2 }, suitIndex_{ card::diamonds } { }
 
 card card_generator::operator()() {
     card c = card(rankIndex_, suitIndex_);
