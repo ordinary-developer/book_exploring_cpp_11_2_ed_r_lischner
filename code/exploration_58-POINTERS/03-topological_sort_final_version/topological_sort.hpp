@@ -1,17 +1,17 @@
-#ifndef TOPOLOGICAL_SORT_HPP
-#define TOPOLOGICAL_SORT_HPP
+#ifndef TOPOLOGICAL_SORT_HPP_
+#define TOPOLOGICAL_SORT_HPP_
 
 #include <deque>
 #include <stdexcept>
 
 template <class Graph, class Nodes>
 void topsort_clean_graph(Graph& graph, Nodes& nodes) {
-    for (auto iter(graph.begin()), end(graph.end()); iter != end; ) {
+    for (auto iter(graph.begin()), end(graph.end()); iter != end;) {
         if (iter->second.empty()) {
             nodes.push_back(iter->first);
             graph.erase(iter++);
         }
-        else 
+        else
             ++iter;
     }
 }
@@ -19,6 +19,7 @@ void topsort_clean_graph(Graph& graph, Nodes& nodes) {
 template <class Graph, class OutIterator>
 void topological_sort(Graph graph, OutIterator sorted) {
     std::deque<typename Graph::key_type> nodes{};
+
     topsort_clean_graph(graph, nodes);
 
     while (not nodes.empty()) {
@@ -27,13 +28,14 @@ void topological_sort(Graph graph, OutIterator sorted) {
         *sorted = n;
         ++sorted;
 
-        for (auto& node : graph)
+        for (auto& node: graph)
             node.second.erase(n);
+
         topsort_clean_graph(graph, nodes);
     }
 
     if (not graph.empty())
         throw std::invalid_argument("Dependency graph contains cycles");
 }
+#endif // TOPOLOGICAL_SORT_HPP_
 
-#endif
